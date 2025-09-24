@@ -1,138 +1,164 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Hipnota - Instant Video Summaries</title>
-  <style>
-    * { margin:0; padding:0; box-sizing:border-box; font-family: Arial, sans-serif; }
-    body { background:#f9f9f9; color:#333; overflow-x:hidden; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hipnota - Instant Video Summaries</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; font-family: Arial, sans-serif; }
+  body { background:#f9f9f9; color:#333; overflow-x:hidden; }
+  a { text-decoration:none; color:inherit; }
 
-    a { text-decoration:none; color:inherit; }
+  /* Header / Hero */
+  header { background:#4CAF50; color:white; padding:80px 20px; text-align:center; position:relative; overflow:hidden; }
+  header h1 { font-size:52px; margin-bottom:15px; animation: bounceIn 1s ease-out; transform-origin:center; }
+  header p { font-size:20px; margin-bottom:20px; animation: fadeIn 2s ease-in 0.5s forwards; opacity:0; }
+  header img { margin-top:20px; border-radius:10px; max-width:100%; height:auto; animation: fadeIn 2.5s ease-in; }
 
-    /* Header / Hero */
-    header { background:#4CAF50; color:white; padding:80px 20px; text-align:center; position:relative; overflow:hidden; }
-    header h1 { font-size:52px; margin-bottom:15px; animation: bounceIn 1s ease-out; transform-origin:center; }
-    header p { font-size:20px; margin-bottom:20px; animation: fadeIn 2s ease-in 0.5s forwards; opacity:0; }
-    header img { margin-top:20px; border-radius:10px; max-width:100%; height:auto; animation: fadeIn 2.5s ease-in; }
+  /* Email Form / CTA */
+  header form { margin-top:30px; animation: fadeIn 3s ease-in; display:flex; justify-content:center; gap:10px; flex-wrap:wrap; }
+  header input[type="email"] { padding:14px; width:250px; border-radius:5px; border:1px solid #ccc; font-size:16px; }
+  header input[type="submit"] { padding:14px 22px; font-size:16px; border:none; border-radius:5px; background:#fff; color:#4CAF50; cursor:pointer; transition:0.3s; animation: pulse 2s infinite; }
+  header input[type="submit"]:hover { background:#e6e6e6; transform: scale(1.1); }
 
-    /* Email Form / CTA */
-    header form { margin-top:30px; animation: fadeIn 3s ease-in; display:flex; justify-content:center; gap:10px; flex-wrap:wrap; }
-    header input[type="email"] { padding:14px; width:250px; border-radius:5px; border:1px solid #ccc; font-size:16px; }
-    header input[type="submit"] { padding:14px 22px; font-size:16px; border:none; border-radius:5px; background:#fff; color:#4CAF50; cursor:pointer; transition:0.3s; animation: pulse 2s infinite; }
-    header input[type="submit"]:hover { background:#e6e6e6; transform: scale(1.1); }
+  /* Features Section */
+  .features { display:flex; flex-wrap:wrap; justify-content:center; max-width:1000px; margin:60px auto; gap:20px; padding:0 20px; text-align:center; }
+  .feature-box { background:white; flex:1 1 250px; padding:30px 20px; border-radius:8px; box-shadow:0 4px 15px rgba(0,0,0,0.1); transition:0.3s; opacity:0; transform: translateY(50px); animation: fadeUp 1s forwards; animation-delay: var(--delay); }
+  .feature-box:hover { transform: translateY(-5px); box-shadow:0 6px 20px rgba(0,0,0,0.15); }
+  .feature-box h3 { color:#4CAF50; margin-bottom:12px; font-size:22px; }
+  .feature-box p { font-size:16px; line-height:1.6; }
 
-    /* Features Section */
-    .features { display:flex; flex-wrap:wrap; justify-content:center; max-width:1000px; margin:60px auto; gap:20px; padding:0 20px; text-align:center; }
-    .feature-box { background:white; flex:1 1 250px; padding:30px 20px; border-radius:8px; box-shadow:0 4px 15px rgba(0,0,0,0.1); transition:0.3s; opacity:0; transform: translateY(50px); animation: fadeUp 1s forwards; animation-delay: var(--delay); }
-    .feature-box:hover { transform: translateY(-5px); box-shadow:0 6px 20px rgba(0,0,0,0.15); }
-    .feature-box h3 { color:#4CAF50; margin-bottom:12px; font-size:22px; }
-    .feature-box p { font-size:16px; line-height:1.6; }
+  /* How It Works */
+  .how { max-width:900px; margin:50px auto; padding:0 20px; text-align:center; }
+  .how h2 { color:#4CAF50; margin-bottom:30px; font-size:36px; }
+  .how-step { margin-bottom:25px; font-size:18px; opacity:0; transform: translateX(-50px); animation: slideRight 0.8s forwards; animation-delay: var(--delay); }
 
-    /* How It Works */
-    .how { max-width:900px; margin:50px auto; padding:0 20px; text-align:center; }
-    .how h2 { color:#4CAF50; margin-bottom:30px; font-size:36px; }
-    .how-step { margin-bottom:25px; font-size:18px; opacity:0; transform: translateX(-50px); animation: slideRight 0.8s forwards; animation-delay: var(--delay); }
+  /* TikTok-style Video Showcase */
+  .video-showcase { max-width:600px; margin:60px auto; padding:0 20px; }
+  .video-showcase h2 { text-align:center; color:#4CAF50; margin-bottom:30px; font-size:32px; }
+  .video-feed { display:flex; flex-direction:column; gap:20px; max-height:400px; overflow:hidden; touch-action: pan-y; position: relative; }
+  .video-item { background:white; border-radius:10px; box-shadow:0 4px 12px rgba(0,0,0,0.1); flex-shrink:0; height:400px; display:flex; justify-content:center; align-items:center; position:relative; overflow:hidden; }
+  .video-item video { width:100%; height:100%; border-radius:10px; object-fit:cover; }
 
-    /* TikTok-style Video Showcase */
-    .video-showcase { max-width:600px; margin:60px auto; padding:0 20px; }
-    .video-showcase h2 { text-align:center; color:#4CAF50; margin-bottom:30px; font-size:32px; }
-    .video-feed { display:flex; flex-direction:column; gap:20px; max-height:400px; overflow:hidden; touch-action: pan-y; position: relative; }
-    .video-item { background:white; border-radius:10px; box-shadow:0 4px 12px rgba(0,0,0,0.1); flex-shrink:0; height:400px; display:flex; justify-content:center; align-items:center; }
-    .video-item video { width:100%; height:100%; border-radius:10px; object-fit:cover; }
+  /* Overlay Icons */
+  .overlay { position:absolute; top:0; left:0; width:100%; height:100%; pointer-events:none; }
+  .play-icon, .like-icon { position:absolute; pointer-events:auto; cursor:pointer; }
+  .play-icon { top:50%; left:50%; transform:translate(-50%, -50%); font-size:48px; color:white; opacity:0.8; }
+  .like-icon { bottom:10px; right:10px; font-size:32px; color:#ff2a6d; opacity:0.9; transition: transform 0.3s; }
+  .like-icon:hover { transform: scale(1.3); }
 
-    /* Footer */
-    footer { text-align:center; padding:30px 20px; background:#333; color:white; }
+  /* Progress Bar */
+  .progress-container { position:absolute; top:0; left:0; width:100%; height:4px; background:rgba(255,255,255,0.3); }
+  .progress-bar { width:0%; height:100%; background:#ff2a6d; transition: width 0.1s linear; }
 
-    /* Animations */
-    @keyframes bounceIn { 0% { transform: scale(0.5); opacity:0; } 60% { transform: scale(1.1); opacity:1; } 100% { transform: scale(1); } }
-    @keyframes fadeIn { from {opacity:0;} to {opacity:1;} }
-    @keyframes fadeUp { from {opacity:0; transform: translateY(50px);} to {opacity:1; transform: translateY(0);} }
-    @keyframes slideRight { from {opacity:0; transform: translateX(-50px);} to {opacity:1; transform: translateX(0);} }
-    @keyframes pulse { 0%,100%{transform:scale(1);}50%{transform:scale(1.05);} }
+  /* Footer */
+  footer { text-align:center; padding:30px 20px; background:#333; color:white; }
 
-    /* Responsive */
-    @media(max-width:768px){ .features { flex-direction:column; } .video-item { height:300px; } }
-  </style>
+  /* Animations */
+  @keyframes bounceIn { 0% { transform: scale(0.5); opacity:0; } 60% { transform: scale(1.1); opacity:1; } 100% { transform: scale(1); } }
+  @keyframes fadeIn { from {opacity:0;} to {opacity:1;} }
+  @keyframes fadeUp { from {opacity:0; transform: translateY(50px);} to {opacity:1; transform: translateY(0);} }
+  @keyframes slideRight { from {opacity:0; transform: translateX(-50px);} to {opacity:1; transform: translateX(0);} }
+  @keyframes pulse { 0%,100%{transform:scale(1);}50%{transform:scale(1.05);} }
+
+  /* Responsive */
+  @media(max-width:768px){ .features { flex-direction:column; } .video-item { height:300px; } .play-icon { font-size:36px; } .like-icon { font-size:28px; } }
+</style>
 </head>
 <body>
 
-  <!-- Hero Section -->
-  <header>
-    <h1>Hipnota</h1>
-    <p>Paste any YouTube video link and get a concise, detailed summary in seconds.</p>
-    <img src="https://via.placeholder.com/600x250?text=Hipnota+Hero" alt="Hipnota Hero">
+<header>
+  <h1>Hipnota</h1>
+  <p>Paste any YouTube video link and get a concise, detailed summary in seconds.</p>
+  <img src="https://via.placeholder.com/600x250?text=Hipnota+Hero" alt="Hipnota Hero">
+  <form action="https://formspree.io/f/your-form-id" method="POST">
+    <input type="email" name="email" placeholder="Enter your email" required>
+    <input type="submit" value="Join Early Access">
+  </form>
+</header>
 
-    <!-- Email Form / CTA -->
-    <form action="https://formspree.io/f/your-form-id" method="POST">
-      <input type="email" name="email" placeholder="Enter your email" required>
-      <input type="submit" value="Join Early Access">
-    </form>
-  </header>
+<section class="features">
+  <div class="feature-box" style="--delay:0.2s"><h3>⚡ Save Time</h3><p>Get only the content you need with concise video summaries tailored to your needs.</p></div>
+  <div class="feature-box" style="--delay:0.4s"><h3>📝 Key Insights</h3><p>Summaries highlight the most important points from the video so you don’t miss anything.</p></div>
+  <div class="feature-box" style="--delay:0.6s"><h3>🎯 Focused Learning</h3><p>Perfect for students, creators, and professionals who want fast, actionable information.</p></div>
+</section>
 
-  <!-- Features Section -->
-  <section class="features">
-    <div class="feature-box" style="--delay:0.2s">
-      <h3>⚡ Save Time</h3>
-      <p>Get only the content you need with concise video summaries tailored to your needs.</p>
+<section class="how">
+  <h2>How It Works</h2>
+  <div class="how-step" style="--delay:0.2s">1️⃣ Paste your YouTube video link into Hipnota.</div>
+  <div class="how-step" style="--delay:0.4s">2️⃣ Enter what you want to get from the video.</div>
+  <div class="how-step" style="--delay:0.6s">3️⃣ Receive a concise, detailed summary instantly!</div>
+</section>
+
+<section class="video-showcase">
+  <h2>See Hipnota in Action</h2>
+  <div class="video-feed" id="video-feed">
+    <div class="video-item">
+      <video src="https://www.w3schools.com/html/mov_bbb.mp4" muted autoplay loop playsinline></video>
+      <div class="overlay">
+        <div class="play-icon">▶️</div>
+        <div class="like-icon">❤️</div>
+        <div class="progress-container"><div class="progress-bar"></div></div>
+      </div>
     </div>
-    <div class="feature-box" style="--delay:0.4s">
-      <h3>📝 Key Insights</h3>
-      <p>Summaries highlight the most important points from the video so you don’t miss anything.</p>
+    <div class="video-item">
+      <video src="https://www.w3schools.com/html/movie.mp4" muted autoplay loop playsinline></video>
+      <div class="overlay">
+        <div class="play-icon">▶️</div>
+        <div class="like-icon">❤️</div>
+        <div class="progress-container"><div class="progress-bar"></div></div>
+      </div>
     </div>
-    <div class="feature-box" style="--delay:0.6s">
-      <h3>🎯 Focused Learning</h3>
-      <p>Perfect for students, creators, and professionals who want fast, actionable information.</p>
+    <div class="video-item">
+      <video src="https://www.w3schools.com/html/mov_bbb.mp4" muted autoplay loop playsinline></video>
+      <div class="overlay">
+        <div class="play-icon">▶️</div>
+        <div class="like-icon">❤️</div>
+        <div class="progress-container"><div class="progress-bar"></div></div>
+      </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- How It Works -->
-  <section class="how">
-    <h2>How It Works</h2>
-    <div class="how-step" style="--delay:0.2s">1️⃣ Paste your YouTube video link into Hipnota.</div>
-    <div class="how-step" style="--delay:0.4s">2️⃣ Enter what you want to get from the video.</div>
-    <div class="how-step" style="--delay:0.6s">3️⃣ Receive a concise, detailed summary instantly!</div>
-  </section>
+<footer>
+  &copy; 2025 Hipnota | All Rights Reserved
+</footer>
 
-  <!-- TikTok-style Video Showcase -->
-  <section class="video-showcase">
-    <h2>See Hipnota in Action</h2>
-    <div class="video-feed" id="video-feed">
-      <div class="video-item"><video src="https://www.w3schools.com/html/mov_bbb.mp4" muted autoplay loop playsinline></video></div>
-      <div class="video-item"><video src="https://www.w3schools.com/html/movie.mp4" muted autoplay loop playsinline></video></div>
-      <div class="video-item"><video src="https://www.w3schools.com/html/mov_bbb.mp4" muted autoplay loop playsinline></video></div>
-    </div>
-  </section>
+<script>
+const feed = document.getElementById('video-feed');
+let startY, scrollTop;
 
-  <footer>
-    &copy; 2025 Hipnota | All Rights Reserved
-  </footer>
+// Mobile swipe
+feed.addEventListener('touchstart', e => { startY = e.touches[0].pageY; scrollTop = feed.scrollTop; });
+feed.addEventListener('touchmove', e => { const y = e.touches[0].pageY; feed.scrollTop = scrollTop - (y - startY); });
 
-  <!-- JS for swipeable mobile feed -->
-  <script>
-    const feed = document.getElementById('video-feed');
-    let startY, scrollTop;
+// Auto-scroll
+let scrollAmount = 0;
+function autoScroll() {
+  scrollAmount += 0.3; 
+  if(scrollAmount >= feed.scrollHeight - feed.clientHeight) scrollAmount = 0;
+  feed.scrollTo({ top: scrollAmount });
+  requestAnimationFrame(autoScroll);
+}
+autoScroll();
 
-    feed.addEventListener('touchstart', e => {
-      startY = e.touches[0].pageY;
-      scrollTop = feed.scrollTop;
-    });
+// Play/pause on click
+document.querySelectorAll('.play-icon').forEach(icon => {
+  icon.addEventListener('click', e => {
+    const video = e.target.closest('.video-item').querySelector('video');
+    if(video.paused) video.play(); else video.pause();
+  });
+});
 
-    feed.addEventListener('touchmove', e => {
-      const y = e.touches[0].pageY;
-      feed.scrollTop = scrollTop - (y - startY);
-    });
-
-    // Optional: auto-scroll slowly if not interacting
-    let scrollAmount = 0;
-    function autoScroll() {
-      scrollAmount += 0.3; 
-      if(scrollAmount >= feed.scrollHeight - feed.clientHeight) scrollAmount = 0;
-      feed.scrollTo({ top: scrollAmount });
-      requestAnimationFrame(autoScroll);
-    }
-    autoScroll();
-  </script>
-
+// Update progress bars
+document.querySelectorAll('.video-item').forEach(item => {
+  const video = item.querySelector('video');
+  const bar = item.querySelector('.progress-bar');
+  video.addEventListener('timeupdate', () => {
+    const percent = (video.currentTime / video.duration) * 100;
+    bar.style.width = percent + '%';
+  });
+});
+</script>
 </body>
 </html>
